@@ -1,0 +1,147 @@
+body, html {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #e5e5f7;
+    opacity: 1;
+    background-image: radial-gradient(#5a5fc1 0.75px, #e5e5f7 0.75px);
+    background-size: 15px 15px;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 35px;
+    margin-bottom: 50px;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 50px;
+    font-family: 'Playfair Display', serif;
+}
+
+.section_1 {
+    text-align: left;
+    margin: 0 0 20px 120px;
+    align-items: center; /* Marco todo el contenido a la izquierda */
+}
+
+
+
+
+
+
+
+/* CSS FORMULARIO */
+
+
+.section_formulario {
+    display: grid;
+    margin-top: 120px;
+    margin: 120px 950px 70px 120px;
+    align-items: center;
+}
+
+.section_formulario p {
+    grid-column: 1/4;
+    font-style: italic;
+    margin-top: 5px;
+    margin-left: 70px;
+}
+
+.cuadro_formulario {
+    text-align: left;
+    background-color: #fff;
+    width: 90%;
+    max-width: 420px;
+    padding: 2em 3em 3.6em 3em;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px -5px rgb(0 0 0 / 30%);
+    text-align: center;
+}
+
+.form__title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 900;
+    margin-bottom: 30px;
+
+}
+
+.botones {
+    display: grid;
+    margin-top: 45px;
+    grid-template-columns: 1fr 1fr; /* Crea dos columnas de tamaño igual */
+    column-gap: 25px;
+}
+
+.botones .botones__enviar {
+    border-radius: 1px;
+    border: solid 1px black;
+    grid-column: 1; /* Coloca el elemento 1 en la primera columna */
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.botones .botones__limpiar {
+    border-radius: 5px;
+    border: solid 1px black;
+    grid-column: 2; /* Coloca el elemento 2 en la segunda columna */
+    font-weight: 500;
+}
+
+
+/* CSS IMAGEN */
+
+.imagen-cargada {
+    max-width: 320px;
+    max-height: 240px;
+    margin-left: 45px;
+    border: solid 2px black;
+    box-shadow: 0 5px 10px -5px rgb(0 0 0 / 30%);
+}
+
+
+
+/* CSS FLECHAS */
+
+.flecha-animada {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 30px solid #5a5fc1; /* Color de la flecha */
+    margin: 20px auto; /* Ajusta el margen según sea necesario */
+    animation: aparecer 0.5s ease-out forwards; /* Animación para aparecer */
+    display: none; /* Inicialmente oculta la flecha */
+}
+
+@keyframes aparecer {
+    from {
+        width: 0;
+    }
+    to {
+        width: 30px;
+    }
+}
+
+
+
+
+
+
+
+/* CSS FOOTER */
+
+footer {
+    margin-top: auto; /* Empuja el pie de página hacia abajo, centrando verticalmente */
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 600;
+}
