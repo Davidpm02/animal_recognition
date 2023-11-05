@@ -6,6 +6,7 @@
     <title>Clasificador Animales</title>
     <link rel="stylesheet" href="static/styles.css" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <header>
@@ -15,20 +16,31 @@
     <div>
 
         <div class="section_1">
-            <p>El modelo funciona detectando las siguientes <strong>especies</strong>:</p>
 
-            <ul class="lista_animales">
-                <li>Mariposa</li>
-                <li>Gato</li>
-                <li>Gallina</li>
-                <li>Vaca</li>
-                <li>Perro</li>
-                <li>Elefante</li>
-                <li>Caballo</li>
-                <li>Araña</li>
-                <li>Oveja</li>
-                <li>Ardilla</li>
-            </ul>
+            <div>
+                <p>El modelo ha sido entrenado para detectar las siguientes <strong>especies</strong>:</p>
+
+                <ul class="lista_animales">
+                    <li>Mariposa</li>
+                    <li>Gato</li>
+                    <li>Gallina</li>
+                    <li>Vaca</li>
+                    <li>Perro</li>
+                    <li>Elefante</li>
+                    <li>Caballo</li>
+                    <li>Araña</li>
+                    <li>Oveja</li>
+                    <li>Ardilla</li>
+                </ul>
+            </div>
+            
+
+            <div class="clase-predicha">
+                <img class="clase-predicha__imagen" id="clase-predicha__imagen" style="display: none;">
+
+                <p class="clase-predicha__texto" id="clase-predicha__texto" style="display: none;">Resultado modelo: <strong><span id="resultado" class="resultado"></span></strong></p>
+            </div>
+
         </div>
 
         <section class="section_formulario">
@@ -36,7 +48,7 @@
 
 
             <div class="cuadro_formulario">
-                <form action="/clasificarImagen">
+                <form action="/clasificarImagen" method="post" enctype="multipart/form-data">
                     <h2 class="form__title">Detecta al animal de la imagen</h2>
                     
                     
@@ -72,9 +84,6 @@
         <p>David Padilla Muñoz</p>
     </footer>
 
-
-
-
     <script>
         // Obtén una referencia al elemento de entrada de archivo
         const inputImagen = document.getElementById('imagen');
@@ -84,39 +93,77 @@
     
         // Obtén una referencia al botón "Limpiar"
         const botonLimpiar = document.querySelector('input[type="reset"]');
-            
+
+        const imagenClasePredicha = document.getElementById('clase-predicha__imagen');
+
+        const textoClasePredicha = document.getElementById('clase-predicha__texto')
+
+        const resultado = document.getElementById('resultado')
+
+        
+
+        $(document).ready(function() {
+        // Agrega un evento submit al formulario para manejar el envío con AJAX
+        $('form').submit(function(event) {
+            event.preventDefault(); // Evita el comportamiento de envío normal del formulario
+
+            // Obtiene los datos del formulario
+            var formData = new FormData($(this)[0]);
+
+            // Envía la solicitud al servidor usando AJAX
+            $.ajax({
+                url: '/clasificarImagen',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(etiquetaPredicha) {
+                    
+                    // Formatea la URL de la imagen local con el nombre del archivo dinámico
+                    var urlImagenLocal = '/static/images/imagenesAnimalesClasificados/' + etiquetaPredicha + '.jpg';
+
+                    // Asigna la URL de la imagen local al elemento de imagen
+                    //imagenClasePredicha.src = urlImagenLocal;
+
+                    // Muestra la respuesta en el HTML sin recargar la página
+                    $('#resultado').text(etiquetaPredicha);
+                    $('#clase-predicha__imagen').attr('src', urlImagenLocal);
+                    $('#clase-predicha__imagen').show();
+                    $('#clase-predicha__texto').show();
+                },
+                error: function(error) {
+                    console.error('Error en la solicitud AJAX: ', error);
+                }
+            });
+        });
+
         // Agrega un evento change al elemento de entrada de archivo para detectar cuando se carga una imagen
-        inputImagen.addEventListener('change', (event) => {
+        $('#imagen').change(function(event) {
             // Verifica si se ha seleccionado una imagen
             if (event.target.files.length > 0) {
                 // Obtén la URL de la imagen cargada
                 const imageUrl = URL.createObjectURL(event.target.files[0]);
-                
+
                 // Muestra la imagen en el elemento de imagen
-                imagenCargada.src = imageUrl;
-                
-                // Muestra el elemento de imagen
-                imagenCargada.style.display = 'block';
+                $('#imagen-cargada').attr('src', imageUrl);
+                $('#imagen-cargada').show();
 
                 // Muestra la flecha animada
-                const flechaAnimada = document.getElementById('flecha-animada');
-                flechaAnimada.style.display = 'block';
+                $('#flecha-animada').show();
             } else {
                 // Oculta la flecha animada si no hay imagen seleccionada
-                const flechaAnimada = document.getElementById('flecha-animada');
-                flechaAnimada.style.display = 'none';
+                $('#flecha-animada').hide();
             }
-            
         });
-    
-        // Agrega un evento click al botón "Limpiar" para ocultar la imagen
-        botonLimpiar.addEventListener('click', () => {
-            // Oculta la imagen
-            imagenCargada.style.display = 'none';
 
-            const flechaAnimada = document.getElementById('flecha-animada');
-            flechaAnimada.style.display = 'none';
+        // Agrega un evento click al botón "Limpiar" para ocultar la imagen
+        $('input[type="reset"]').click(function() {
+            // Oculta la imagen
+            $('#imagen-cargada').hide();
+            $('#flecha-animada').hide();
         });
+    });
+
     </script>
 
     
