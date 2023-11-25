@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-ES">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,19 +27,19 @@
         <div class="section_1">
 
             <div>
-                <p>El modelo ha sido entrenado para detectar las siguientes <strong>especies</strong>:</p>
+                <p>El modelo de clasificacion de <strong>perros</strong> es capaz de detectar las siguientes razas:</p>
 
                 <ul class="lista_animales">
-                    <li>Mariposa</li>
-                    <li>Gato</li>
-                    <li>Gallina</li>
-                    <li>Vaca</li>
-                    <li>Perro</li>
-                    <li>Elefante</li>
-                    <li>Caballo</li>
-                    <li>Araña</li>
-                    <li>Oveja</li>
-                    <li>Ardilla</li>
+                    <li>American Stafforshire</li>
+                    <li>Beagle</li>
+                    <li>Border Collie</li>
+                    <li>Chihuahua</li>
+                    <li>Doberman</li>
+                    <li>Bulldog Frances</li>
+                    <li>Labrador</li>
+                    <li>Rottweiler</li>
+                    <li>Toy Terrier</li>
+                    <li>Yorkshire Terrier</li>
                 </ul>
             </div>
             
@@ -52,12 +52,12 @@
 
         </div>
 
-            
         <section class="section_formulario">
             <p>¡Prueba a subir una imagen al formulario!</p>
 
+
             <div class="cuadro_formulario">
-                <form action="/clasificarImagen" method="post" enctype="multipart/form-data">
+                <form action="/clasificarImagen_perros" method="post" enctype="multipart/form-data">
                     <h2 class="form__title">Detecta al animal de la imagen</h2>
                     
                     
@@ -89,10 +89,14 @@
         <section class="apartado_info_animal" id="apartado_info_animal" style="display: none;">
             <h3>Informacion relacionada</h3>
 
-            <p class="text_animal" id="text_animal"></p>
+            <p class="text_animal">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </section>
 
     </div>
+
 
 
     <script>
@@ -115,7 +119,6 @@
 
         $(document).ready(function() {
         // Agrega un evento submit al formulario para manejar el envío con AJAX
-        // Agrega un evento submit al formulario para manejar el envío con AJAX
         $('form').submit(function(event) {
             event.preventDefault(); // Evita el comportamiento de envío normal del formulario
 
@@ -124,31 +127,31 @@
 
             // Envía la solicitud al servidor usando AJAX
             $.ajax({
-                url: '/clasificarImagen',
+                url: '/clasificarImagen_perros',
                 type: 'POST',
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(response) {
-                    var etiquetaPredicha = response.etiquetaPredicha;
-                    var texto_clasePredicha = response.texto_clasePredicha;
+                success: function(etiquetaPredicha) {
+                    
+                    // Formatea la URL de la imagen local con el nombre del archivo dinámico
+                    var urlImagenLocal = '/static/images/imagenesAnimalesClasificados_perros/' + etiquetaPredicha + '.jpg';
 
-                    var urlImagenLocal = '/static/images/imagenesAnimalesClasificados/' + etiquetaPredicha + '.jpg';
+                    // Asigna la URL de la imagen local al elemento de imagen
+                    //imagenClasePredicha.src = urlImagenLocal;
 
-                    $('#clase-predicha__imagen').attr('src', urlImagenLocal);
+                    // Muestra la respuesta en el HTML sin recargar la página
                     $('#resultado').text(etiquetaPredicha);
-
+                    $('#clase-predicha__imagen').attr('src', urlImagenLocal);
                     $('#clase-predicha__imagen').show();
                     $('#clase-predicha__texto').show();
                     $('#apartado_info_animal').show();
-                    $('#text_animal').text(texto_clasePredicha);
                 },
                 error: function(error) {
                     console.error('Error en la solicitud AJAX: ', error);
                 }
             });
         });
-
 
         // Agrega un evento change al elemento de entrada de archivo para detectar cuando se carga una imagen
         $('#imagen').change(function(event) {
